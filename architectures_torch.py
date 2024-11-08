@@ -73,6 +73,35 @@ def resnet(input_shape, level):
     else:
         raise Exception('No level %d' % level)
 
+
+# def pilot(input_shape, level):
+#     net = []
+
+#     net += [nn.Conv2d(input_shape[0], 64, 3, 1, 1)]
+#     net += [nn.BatchNorm2d(64)]
+#     net += [nn.ReLU()]
+#     net += [nn.MaxPool2d(2)]
+#     net += [ResBlock(64, 64)]
+
+#     if level == 1:
+#         return nn.Sequential(*net)
+
+#     net += [ResBlock(64, 128, stride=2)]
+
+#     if level == 2:
+#         return nn.Sequential(*net)
+    
+#     net += [ResBlock(128, 128)]
+
+#     if level == 3:                
+#         return nn.Sequential(*net)
+
+#     net += [ResBlock(128, 256, stride=2)]
+
+#     if level <= 4:
+#         return nn.Sequential(*net)
+#     else:
+#         raise Exception('No level %d' % level)
         
 def pilot(input_shape, level):
 

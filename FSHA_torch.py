@@ -117,6 +117,12 @@ class FSHA:
         public_rec_loss = distance_data_loss(x_public, rec_x_public)
         tilde_f_loss = public_rec_loss
 
+        # target = z_public.detach()
+        # source = z_private
+        # correlation alignment loss
+        # f_loss += self.correlation_alignment_loss(source, target) # target是伪模型的输出，是接近的目标
+
+
         # discriminator on attacker's feature-space
         adv_public_logits = self.D(z_public.detach())
         adv_private_logits_detached = self.D(z_private.detach())
@@ -205,7 +211,11 @@ class FSHA:
             control = self.decoder(z_private_control)
         return tilde_x_private, control
     
-    def correlation_alignment_loss(f_s, f_t):
+    def correlation_alignment_loss(self, f_s, f_t):
+        # [64, 128, 8, 8] # batch_size, channel, height, width
+        # 转为二维数组
+        f_s = f_s.view(f_s.size(0), -1)
+        f_t = f_t.view(f_t.size(0), -1) 
         mean_s = f_s.mean(0, keepdim=True)
         mean_t = f_t.mean(0, keepdim=True)
         cent_s = f_s - mean_s
